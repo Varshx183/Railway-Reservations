@@ -1,0 +1,36 @@
+name: Build and PostgreSQL tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: railway_test
+          POSTGRES_USER: railway
+          POSTGRES_PASSWORD: ci-only-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U railway -d railway_test"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      TEST_DB_URL: jdbc:postgresql://localhost:5432/railway_test
+      TEST_DB_USER: railway
+      TEST_DB_PASSWORD: ci-only-password
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B clean verify
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports
+          path: target/surefire-reports/
