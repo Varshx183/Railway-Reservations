@@ -71,19 +71,6 @@ If using the separately supplied prebuilt JAR, replace `target/railway-reservati
 
 For Linux/macOS, use `export DB_PASSWORD='...'` in place of PowerShell environment assignments. Java and Maven commands are otherwise the same.
 
-## Upgrade from the repaired v1
-
-Back up any database you want to retain, stop the old application, and build v2. Against the same dedicated `railway` database, run:
-
-```sh
-java -jar target/railway-reservation-2.0.0.jar init --seed
-java -jar target/railway-reservation-2.0.0.jar web
-```
-
-Migration `003_accounts_cancellation.sql` preserves v1 tickets and passenger assignments, adds account ownership/status, and replaces the seat constraint with a partial unique index for active assignments. The migration test starts from the actual v1 schema and verifies that existing seats remain booked.
-
-V1 tickets have no account owner and remain available through the local legacy TCP interface. They are not silently assigned to newly created accounts. The original ZIP's earlier dynamic-table database layout is not migrated by this package.
-
 ## How cancellation works
 
 Booking and cancellation lock the same train/date/class inventory row. Cancellation marks the ticket CANCELLED and its passenger assignments inactive, then decrements the active seat count in one transaction. The records remain available in the owner's history.
@@ -98,8 +85,6 @@ New bookings select the lowest available seat indices, including holes left by c
 - Mutating requests require a custom browser header; authenticated changes also require a session-derived CSRF token. Cross-origin CORS access is not enabled.
 - Authentication attempts are limited to 20 per minute per direct client IP per process.
 - HTTP headers, body size, connections, worker queue, and request/response time are bounded. Static pages use a Content Security Policy and render user strings as text.
-
-Password and CSRF choices are informed by the [OWASP password-storage guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) and [CSRF prevention guidance](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html). HTTP server limits use the [JDK 21 HTTP server properties](https://docs.oracle.com/en/java/javase/21/docs/api/jdk.httpserver/module-summary.html).
 
 ## Architecture
 
@@ -116,60 +101,3 @@ flowchart LR
 No frontend build tool is needed. `src/main/resources/web` contains the interface, packaged into the runnable JAR. `WebServer` serves assets and API endpoints. `Accounts` handles registration and sessions; `Passwords` handles hashing. `WebStore` manages owned tickets, booking request IDs, cancellation, and date-filtered search. The original `Database`/TCP classes remain covered by tests.
 
 Tables: `train_services`, `seat_inventory`, `tickets`, `passengers`, `routes`, `accounts`, `sessions`, `booking_requests`. SQL functions: `release_train`, `book_tickets`, `cancel_ticket`, `search_routes`.
-
-## HTTP API
-
-All API responses use `{"ok":true,"data":...}` or `{"ok":false,"error":{"code":"...","message":"..."}}`.
-
-| Endpoint | Method | Purpose |
-|---|---|---|
-| `/api/register` | POST | Create account: name, email, password |
-| `/api/login` | POST | Sign in: email, password; sets cookie and returns CSRF token |
-| `/api/me` | GET | Current account and CSRF token |
-| `/api/logout` | POST | Revoke current session |
-| `/api/stations` | GET | Sample station names |
-| `/api/search` | POST | source, destination, date |
-| `/api/availability` | POST | train, date |
-| `/api/book` | POST | train, date, class, passengers, requestId (UUID) |
-| `/api/bookings` | GET | Owner's latest 100 tickets, including cancelled tickets |
-| `/api/ticket` | POST | Owner's ticket by pnr |
-| `/api/cancel` | POST | Cancel owner's whole ticket by pnr |
-| `/api/admin/release` | POST | Open inventory: train, date, acCoaches, sleeperCoaches, adminToken |
-
-POST requests use `Content-Type: application/json` and `X-Requested-With: railway-web`. Authenticated POSTs also send `X-CSRF-Token` returned by login/me. The browser handles these automatically. Password length: 10–128 characters; booking group: 1–100 names, each at most 100 characters. Request body limit: 32 KB.
-
-The same owner/requestId/details returns the existing ticket without consuming seats again. Reusing the ID for different details returns REQUEST_ID_CONFLICT. If that original ticket has since been cancelled, a retry returns its CANCELLED state; use a new request ID for a new booking. The legacy TCP BOOK operation does not have this retry guarantee.
-
-## Tests and CI
-
-`mvn clean verify` runs validation and password tests. Database, HTTP, and migration tests run only when `TEST_DB_URL` is set. Without it, those tests are explicitly skipped.
-
-Create a dedicated test database owned by your test user:
-
-```powershell
-$env:TEST_DB_URL = 'jdbc:postgresql://localhost:5432/railway_test'
-$env:TEST_DB_USER = 'railway'
-$env:TEST_DB_PASSWORD = 'your-test-database-password'
-mvn clean verify
-```
-
-Each integration test creates and removes only its own uniquely named schema. GitHub Actions supplies a fresh PostgreSQL service and enables the full suite. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for the current results and verification limits.
-
-## Configuration
-
-| Variable | Default / requirement |
-|---|---|
-| `DB_URL` | `jdbc:postgresql://localhost:5432/railway` |
-| `DB_USER` | `railway` |
-| `DB_PASSWORD` | Required |
-| `ADMIN_TOKEN` | Required for web/server/init/demo; used for opening departures |
-| `WEB_HOST` | `127.0.0.1`; Compose sets `0.0.0.0` inside container |
-| `WEB_PORT` | `8080` |
-| `COOKIE_SECURE` | `false` for local HTTP; set `true` behind HTTPS |
-| `SERVER_HOST` / `SERVER_PORT` | Legacy TCP: `127.0.0.1:7008` |
-| `SERVER_WORKERS` / `SERVER_QUEUE_SIZE` | Legacy TCP: `8` / `32` |
-| `SOCKET_TIMEOUT_MS` | Legacy TCP: `15000` |
-
-## Legacy TCP mode
-
-`java -jar target/railway-reservation-2.0.0.jar server` runs the original JSON-line TCP interface instead of the web server. In another terminal, use `client FILE [HOST PORT]` or `release TRAIN DATE AC_COACHES SL_COACHES`. See the files in `examples/`. TCP bookings are anonymous; the web app requires accounts. Keep this interface on loopback. Account-owned ticket lookup is refused over TCP.
