@@ -1,0 +1,17 @@
+{
+  "artifact": "railway-reservation-2.0.0.jar",
+  "checks": [
+    "demo initialization",
+    "web server startup",
+    "registration",
+    "login",
+    "dated search and availability",
+    "owned booking",
+    "idempotent booking retry",
+    "cancellation",
+    "ticket history",
+    "logout"
+  ],
+  "passed": true,
+  "browserVisualVerification": false
+}

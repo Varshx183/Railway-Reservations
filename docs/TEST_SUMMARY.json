@@ -1,0 +1,42 @@
+[
+  {
+    "name": "dev.railway.DatabaseIntegrationTest",
+    "tests": "19",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "14.498"
+  },
+  {
+    "name": "dev.railway.MigrationIntegrationTest",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.63"
+  },
+  {
+    "name": "dev.railway.PasswordTest",
+    "tests": "4",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1.297"
+  },
+  {
+    "name": "dev.railway.ValidationTest",
+    "tests": "30",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.131"
+  },
+  {
+    "name": "dev.railway.WebIntegrationTest",
+    "tests": "19",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "42.046"
+  }
+]

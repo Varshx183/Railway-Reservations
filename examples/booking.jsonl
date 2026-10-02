@@ -1,0 +1,4 @@
+{"operation":"AVAILABILITY","train":6773,"date":"2030-03-08"}
+{"operation":"BOOK","train":6773,"date":"2030-03-08","class":"AC","passengers":["Alice Smith","Bob Reddy"]}
+{"operation":"BOOK","train":6773,"date":"2030-03-08","class":"SL","passengers":["Charlie Kumar"]}
+{"operation":"AVAILABILITY","train":6773,"date":"2030-03-08"}

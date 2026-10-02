@@ -1,0 +1,274 @@
+{
+  "help": "Railway Reservation System\n  init [--seed]       Create schema and optionally load sample routes\n  server              Start booking and search server\n  release TRAIN DATE AC_COACHES SL_COACHES  Open seats (requires ADMIN_TOKEN)\n  client FILE [HOST PORT]  Send JSON requests and print JSON responses\nSee README.md for environment variables and examples.",
+  "initialize": "Database initialized with sample routes.",
+  "release": {
+    "ok": true,
+    "data": {
+      "train": 6773,
+      "date": "2030-03-08",
+      "acCoaches": 2,
+      "sleeperCoaches": 3
+    }
+  },
+  "booking": [
+    {
+      "ok": true,
+      "data": {
+        "train": 6773,
+        "date": "2030-03-08",
+        "classes": [
+          {
+            "class": "AC",
+            "capacity": 36,
+            "booked": 0,
+            "available": 36
+          },
+          {
+            "class": "SL",
+            "capacity": 72,
+            "booked": 0,
+            "available": 72
+          }
+        ]
+      }
+    },
+    {
+      "ok": true,
+      "data": {
+        "pnr": "5834c6b4-ac49-4bae-b48b-5369f9f0ca2f",
+        "train": 6773,
+        "date": "2030-03-08",
+        "class": "AC",
+        "passengers": [
+          {
+            "name": "Alice Smith",
+            "coach": 1,
+            "berth": 1,
+            "berthType": "LB"
+          },
+          {
+            "name": "Bob Reddy",
+            "coach": 1,
+            "berth": 2,
+            "berthType": "LB"
+          }
+        ]
+      }
+    },
+    {
+      "ok": true,
+      "data": {
+        "pnr": "5c67bb02-5ba7-4423-9a21-792a670934e3",
+        "train": 6773,
+        "date": "2030-03-08",
+        "class": "SL",
+        "passengers": [
+          {
+            "name": "Charlie Kumar",
+            "coach": 1,
+            "berth": 1,
+            "berthType": "LB"
+          }
+        ]
+      }
+    },
+    {
+      "ok": true,
+      "data": {
+        "train": 6773,
+        "date": "2030-03-08",
+        "classes": [
+          {
+            "class": "AC",
+            "capacity": 36,
+            "booked": 2,
+            "available": 34
+          },
+          {
+            "class": "SL",
+            "capacity": 72,
+            "booked": 1,
+            "available": 71
+          }
+        ]
+      }
+    }
+  ],
+  "search": [
+    {
+      "ok": true,
+      "data": {
+        "message": "pong"
+      }
+    },
+    {
+      "ok": true,
+      "data": [
+        {
+          "type": "DIRECT",
+          "train": 12058,
+          "source": "Anandpur Sahib",
+          "arrivalDay": 0,
+          "arrivalTime": "12:00:00",
+          "destination": "New Delhi",
+          "departureDay": 0,
+          "departureTime": "05:46:00",
+          "durationMinutes": 374.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12058,
+          "source": "Anandpur Sahib",
+          "arrivalDay": 1,
+          "arrivalTime": "12:00:00",
+          "destination": "New Delhi",
+          "departureDay": 1,
+          "departureTime": "05:46:00",
+          "durationMinutes": 374.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12058,
+          "source": "Anandpur Sahib",
+          "arrivalDay": 2,
+          "arrivalTime": "12:00:00",
+          "destination": "New Delhi",
+          "departureDay": 2,
+          "departureTime": "05:46:00",
+          "durationMinutes": 374.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12058,
+          "source": "Anandpur Sahib",
+          "arrivalDay": 3,
+          "arrivalTime": "12:00:00",
+          "destination": "New Delhi",
+          "departureDay": 3,
+          "departureTime": "05:46:00",
+          "durationMinutes": 374.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12058,
+          "source": "Anandpur Sahib",
+          "arrivalDay": 4,
+          "arrivalTime": "12:00:00",
+          "destination": "New Delhi",
+          "departureDay": 4,
+          "departureTime": "05:46:00",
+          "durationMinutes": 374.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12058,
+          "source": "Anandpur Sahib",
+          "arrivalDay": 5,
+          "arrivalTime": "12:00:00",
+          "destination": "New Delhi",
+          "departureDay": 5,
+          "departureTime": "05:46:00",
+          "durationMinutes": 374.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12058,
+          "source": "Anandpur Sahib",
+          "arrivalDay": 6,
+          "arrivalTime": "12:00:00",
+          "destination": "New Delhi",
+          "departureDay": 6,
+          "departureTime": "05:46:00",
+          "durationMinutes": 374.0
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "data": []
+    },
+    {
+      "ok": true,
+      "data": [
+        {
+          "type": "DIRECT",
+          "train": 12650,
+          "source": "New Delhi",
+          "arrivalDay": 1,
+          "arrivalTime": "19:35:00",
+          "destination": "Yesvantpur Junction",
+          "departureDay": 0,
+          "departureTime": "06:40:00",
+          "durationMinutes": 2215.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12650,
+          "source": "New Delhi",
+          "arrivalDay": 2,
+          "arrivalTime": "19:35:00",
+          "destination": "Yesvantpur Junction",
+          "departureDay": 1,
+          "departureTime": "06:40:00",
+          "durationMinutes": 2215.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12650,
+          "source": "New Delhi",
+          "arrivalDay": 4,
+          "arrivalTime": "19:35:00",
+          "destination": "Yesvantpur Junction",
+          "departureDay": 3,
+          "departureTime": "06:40:00",
+          "durationMinutes": 2215.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12650,
+          "source": "New Delhi",
+          "arrivalDay": 6,
+          "arrivalTime": "19:35:00",
+          "destination": "Yesvantpur Junction",
+          "departureDay": 5,
+          "departureTime": "06:40:00",
+          "durationMinutes": 2215.0
+        },
+        {
+          "type": "DIRECT",
+          "train": 12650,
+          "source": "New Delhi",
+          "arrivalDay": 0,
+          "arrivalTime": "19:35:00",
+          "destination": "Yesvantpur Junction",
+          "departureDay": 6,
+          "departureTime": "06:40:00",
+          "durationMinutes": 2215.0
+        }
+      ]
+    }
+  ],
+  "ticketLookup": {
+    "ok": true,
+    "data": {
+      "pnr": "5834c6b4-ac49-4bae-b48b-5369f9f0ca2f",
+      "train": 6773,
+      "date": "2030-03-08",
+      "class": "AC",
+      "passengers": [
+        {
+          "name": "Alice Smith",
+          "coach": 1,
+          "berth": 1,
+          "berthType": "LB"
+        },
+        {
+          "name": "Bob Reddy",
+          "coach": 1,
+          "berth": 2,
+          "berthType": "LB"
+        }
+      ]
+    }
+  }
+}

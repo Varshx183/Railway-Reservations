@@ -1,0 +1,4 @@
+{"operation":"PING"}
+{"operation":"SEARCH","source":"Anandpur Sahib","destination":"New Delhi"}
+{"operation":"SEARCH","source":"Nangal Dam","destination":"Udaipur City"}
+{"operation":"SEARCH","source":"New Delhi","destination":"Yesvantpur Junction"}
