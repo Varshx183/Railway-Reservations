@@ -2,6 +2,10 @@
 
 A Java 21/PostgreSQL application with a responsive browser interface, user accounts, ticket booking, cancellation, and direct/one-transfer route search. The original TCP interface remains available for learning and regression tests.
 
+## Screenshots
+
+<img width="1251" height="668" alt="Railway" src="https://github.com/user-attachments/assets/6f58271d-f0ea-4ae5-a1a6-21da3d81ebff" />
+
 ## Features
 
 - Search weekly timetables by stations **and journey date**.
@@ -169,11 +173,3 @@ Each integration test creates and removes only its own uniquely named schema. Gi
 ## Legacy TCP mode
 
 `java -jar target/railway-reservation-2.0.0.jar server` runs the original JSON-line TCP interface instead of the web server. In another terminal, use `client FILE [HOST PORT]` or `release TRAIN DATE AC_COACHES SL_COACHES`. See the files in `examples/`. TCP bookings are anonymous; the web app requires accounts. Keep this interface on loopback. Account-owned ticket lookup is refused over TCP.
-
-## Scope and GitHub
-
-This is a local portfolio application. It has no payment, waiting list, email verification, password reset, live railway integration, or seat reuse between non-overlapping station segments. One-transfer results are timetable suggestions; they cannot be booked as one atomic multi-train itinerary. Inventory is reserved for the whole train journey and may be opened independently of the timetable. Historical dates are accepted for repeatable tests and demonstrations.
-
-The HTTP listener serves local HTTP. Public hosting needs HTTPS, secure cookies, a suitable reverse proxy, and deployment-specific review. The token-protected management form opens departures; a full timetable/role management dashboard is not implemented.
-
-Upload source, SQL, resources, docs, examples, build/configuration files, and `.github`; exclude `target`, `.env`, local database data, and temporary credentials. No project-level license has been selected. See [docs/PROJECT_GUIDE.md](docs/PROJECT_GUIDE.md) for implementation explanations and resume wording.
