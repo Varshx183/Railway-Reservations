@@ -1,4 +1,4 @@
-# Railway Reservation System — Web Edition
+# Railway Reservation System
 
 A Java 21/PostgreSQL application with a responsive browser interface, user accounts, ticket booking, cancellation, and direct/one-transfer route search. The original TCP interface remains available for learning and regression tests.
 
